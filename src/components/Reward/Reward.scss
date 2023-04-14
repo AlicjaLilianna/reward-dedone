@@ -1,0 +1,19 @@
+.reward {
+  background: #fcfcfc;
+  border-radius: 25px;
+  width: 100%;
+  overflow: hidden;
+  margin: 8px;
+  position: relative;
+  z-index: 5;
+
+  .rewardContainer {
+    border: 1px solid #eef1f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    gap: 24px;
+    position: relative;
+  }
+}

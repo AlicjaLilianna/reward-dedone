@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
+import "./App.css";
+import Header from "./components/Header/Header";
+import Nav from "./components/Menu/Menu";
+import Modal from "./components/Modal/Modal";
 
 function App() {
+  const [modal, setModal] = useState({ modalOpen: false });
+  const htmlStyle = {
+    backgroundColor: "#F0F3FA",
+    margin: "0 auto",
+    padding: 0,
+    maxWidth: "480px",
+    height: "100vh",
+    overflow: "hidden",
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={htmlStyle}>
+      <Header />
+      <Outlet />
+      <Nav />
+      <Modal opened={modal.modalOpen}></Modal>
     </div>
   );
 }

@@ -1,0 +1,84 @@
+.task {
+  background: #fcfcfc;
+  border-radius: 25px;
+  width: 100%;
+  overflow: hidden;
+  margin: 8px;
+  position: relative;
+  z-index: 5;
+
+  .taskContainer {
+    border: 1px solid #eef1f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    gap: 24px;
+    position: relative;
+
+    &::after {
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 200%;
+      top: -88%;
+      opacity: 0.3;
+      background-repeat: no-repeat;
+    }
+    &[priority="very-high"]::after {
+      background-image: url("../../assets/fire.svg");
+      background-size: 100px 152px;
+      background-position: 6% -64%;
+      transform: rotate(-27deg);
+    }
+    &[priority="high"]::after {
+      background-image: url("../../assets/exclamation.svg");
+      background-size: 28px 135px;
+      background-position: 14% -30%;
+      transform: rotate(-27deg);
+    }
+    &[priority="low"]::after {
+      background-image: url("../../assets/feather.svg");
+      background-size: 175px 159px;
+      background-position: 0% 339%;
+    }
+    .checkboxContainer {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      z-index: 2;
+
+      input[type="checkbox"] {
+        appearance: none;
+        box-sizing: border-box;
+        width: 30px;
+        height: 30px;
+        border: 1px solid rgba(31, 62, 82, 0.09);
+        background: #c7cbd5;
+        border-radius: 5px;
+        &.checked {
+          &::after {
+            background: url("../../assets/check.svg");
+            background-repeat: no-repeat;
+            background-size: 22px 15px;
+            width: 22px;
+            height: 15px;
+            content: "";
+            color: #243545;
+            margin: 7px auto;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+
+.done {
+  position: absolute;
+  mix-blend-mode: multiply;
+  background-color: rgba(163, 163, 163, 0.4);
+  width: 100%;
+  height: 100%;
+  margin-left: -24px;
+}
