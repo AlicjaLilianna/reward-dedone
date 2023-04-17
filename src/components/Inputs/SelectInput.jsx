@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Select, { components } from "react-select";
 import feather from "../../assets/feather.svg";
 import exclamation from "../../assets/exclamation.svg";
@@ -54,7 +54,7 @@ function SelectInput(props) {
       <div
         styles={{
           display: "flex",
-          alignItems: "center",
+          alignItems: "end",
           justifyContent: "center",
           width: "100%",
         }}
@@ -75,9 +75,7 @@ function SelectInput(props) {
         <span
           style={{
             display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            width: "75%",
+            width: "50%",
           }}
         >
           {props.data.label}
@@ -89,19 +87,21 @@ function SelectInput(props) {
 
   return (
     <InputContainer>
-      <Label for={props.name}>{props.label}</Label>
+      <Label htmlFor={props.name}>{props.label}</Label>
       <Select
         menuPlacement="top"
         defaultValue={prioritiesTypes[2]}
         options={prioritiesTypes}
         components={{ Option: IconOption }}
         styles={{
-          control: (baseStyles) => ({
+          control: (baseStyles, state) => ({
             ...baseStyles,
             padding: "17px 15px 5px 15px",
             appearance: "none",
             backgroundColor: "#fff",
-            border: "1px solid rgba(31, 62, 82, 0.09)",
+            border: state.isFocused
+              ? "1px solid rgb(67, 95, 124) !important"
+              : "1px solid rgba(31, 62, 82, 0.09)",
             borderRadius: "15px",
             width: "100%",
             fontSize: "16px",

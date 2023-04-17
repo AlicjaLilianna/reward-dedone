@@ -3,7 +3,6 @@ import Task from "../Task/Task";
 import { TaskContext } from "../../providers/TaskContext";
 import Infobox from "../InfoBox/InfoBox";
 import styled from "@emotion/styled";
-import Modal from "../Modal/Modal";
 
 function Main() {
   //styles

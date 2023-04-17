@@ -23,13 +23,14 @@ function Inputs(props) {
     width: 100%;
     font-size: 16px;
     &:focus-visible {
-      outline: 2px solid rgb(36, 53, 69);
+      border: 1px solid rgb(67, 95, 124);
+      outline: 0;
     }
   `;
 
   return (
     <InputContainer>
-      <Label for={props.inputName}>
+      <Label htmlFor={props.inputName}>
         {props.inputName === "points" && <FontAwesomeIcon icon={faStar} />}{" "}
         {props.label}
       </Label>

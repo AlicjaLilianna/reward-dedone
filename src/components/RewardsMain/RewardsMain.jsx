@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Infobox from "../InfoBox/InfoBox";
 import Reward from "../Reward/Reward";
 import { RewardContext } from "../../providers/RewardContext";
@@ -18,7 +18,7 @@ function RewardsMain() {
     }
   `;
 
-  let [rewardList, setRewardList] = useState([
+  let [rewardList] = React.useState([
     {
       title: "Eat chocolate",
       points: 100,

@@ -1,9 +1,16 @@
+import { useLocation } from "react-router-dom";
 import Button from "../Buttons/Button";
 import StarIcon from "../Icons/StarIcon";
 import styled from "@emotion/styled";
 import bckg from "../../assets/background.svg";
+import bckgRewards from "../../assets/background_rewards.svg";
+import { ModalContext } from "../../providers/ModalContext";
+import { useContext } from "react";
 
 function Header() {
+  const path = useLocation().pathname;
+  const location = path.split("/")[1];
+  const background = location === "rewards" ? bckgRewards : bckg;
   //styles
   const Header = styled("header")`
     position: relative;
@@ -21,7 +28,8 @@ function Header() {
       left: 0;
       position: absolute;
       content: "";
-      background: #feb5a6 url(${bckg});
+      background: ${location === "rewards" ? "#9491B8" : "#feb5a6"}
+        url(${background});
       background-size: 60% 92%;
       background-position: bottom left;
     }
@@ -69,8 +77,10 @@ function Header() {
     }
   `;
 
+  const modal = useContext(ModalContext);
+
   const addNew = () => {
-    console.log("adding new");
+    modal.toggleModal();
   };
 
   return (
@@ -79,7 +89,9 @@ function Header() {
         <StarIcon fill="#000000" /> <div>12</div>
       </StarContainer>
       <TitleContainer>
-        <h1 className="title">Tasks</h1>
+        <h1 className="title">
+          {location === "rewards" ? "Rewards" : "Tasks"}
+        </h1>
         <Button btnClass="btn-primary btn-add" btnText="+" btnEvent={addNew} />
       </TitleContainer>
     </Header>

@@ -1,4 +1,7 @@
+import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
+import { useContext } from "react";
+import { ModalContext } from "../../providers/ModalContext";
 import Button from "../Buttons/Button";
 import Inputs from "../Inputs/Inputs";
 import SelectInput from "../Inputs/SelectInput";
@@ -50,19 +53,61 @@ function Modal(props) {
     display: flex;
     justify-content: space-between;
   `;
+
+  const TwoColumn = styled("div")`
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 16px;
+  `;
+
+  const modal = useContext(ModalContext);
+  const path = useLocation().pathname;
+  const location = path.split("/")[1];
+
+  const cancelModal = () => {
+    modal.toggleModal();
+  };
+
   return (
     <section>
-      {props.opened && (
+      {modal.opened && (
         <Darken>
           <Container>
-            <ModalHeader>This is modal header</ModalHeader>
-            <ModalBody>
-              <Inputs type="text" inputName="task-name" label="Task title" />
-              <Inputs type="number" inputName="points" label="Points" />
-              <SelectInput inputName="priority" label="Priority" />
-            </ModalBody>
+            {location === "rewards" ? (
+              <>
+                <ModalHeader>Add new reward</ModalHeader>
+                <ModalBody>
+                  <Inputs
+                    type="text"
+                    inputName="reward-name"
+                    label="Reward title"
+                  />
+                  <Inputs type="number" inputName="points" label="Points" />
+                </ModalBody>
+              </>
+            ) : (
+              <>
+                {" "}
+                <ModalHeader>Add new task</ModalHeader>
+                <ModalBody>
+                  <Inputs
+                    type="text"
+                    inputName="task-name"
+                    label="Task title"
+                  />
+                  <TwoColumn>
+                    <SelectInput inputName="priority" label="Priority" />
+                    <Inputs type="number" inputName="points" label="Points" />
+                  </TwoColumn>
+                </ModalBody>
+              </>
+            )}
             <ModalFooter>
-              <Button btnClass="btn-secondary" btnText="Cancel"></Button>
+              <Button
+                btnClass="btn-secondary"
+                btnText="Cancel"
+                btnEvent={cancelModal}
+              ></Button>
               <Button btnClass="btn-primary" btnText="Add"></Button>
             </ModalFooter>
           </Container>
