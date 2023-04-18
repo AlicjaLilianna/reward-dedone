@@ -5,9 +5,12 @@ import styled from "@emotion/styled";
 import bckg from "../../assets/background.svg";
 import bckgRewards from "../../assets/background_rewards.svg";
 import { ModalContext } from "../../providers/ModalContext";
-import { useContext } from "react";
+import React, { useContext } from "react";
+import { PointsContext } from "../../providers/PointsContext";
 
 function Header() {
+  const [points] = React.useContext(PointsContext);
+  const modal = useContext(ModalContext);
   const path = useLocation().pathname;
   const location = path.split("/")[1];
   const background = location === "rewards" ? bckgRewards : bckg;
@@ -77,8 +80,6 @@ function Header() {
     }
   `;
 
-  const modal = useContext(ModalContext);
-
   const addNew = () => {
     modal.toggleModal();
   };
@@ -86,7 +87,7 @@ function Header() {
   return (
     <Header>
       <StarContainer>
-        <StarIcon fill="#000000" /> <div>12</div>
+        <StarIcon fill="#000000" /> <div>{points}</div>
       </StarContainer>
       <TitleContainer>
         <h1 className="title">

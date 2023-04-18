@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import Task from "../Task/Task";
-import { TaskContext } from "../../providers/TaskContext";
-import Infobox from "../InfoBox/InfoBox";
+import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
 
+import Infobox from "../InfoBox/InfoBox";
+import Task from "../Task/Task";
+import { TaskContext } from "../../providers/TaskContext";
+import { PointsContext } from "../../providers/PointsContext";
+
 function Main() {
+  const [points, setPoints] = React.useContext(PointsContext);
   //styles
   const Container = styled("main")`
     max-width: 480px;
@@ -65,7 +68,13 @@ function Main() {
     setTaskList(
       tasksList
         .map((t) => {
-          return t.id === id ? { ...t, done: !t.done } : t;
+          if (t.id === id) {
+            const mult = t.done ? -1 : 1;
+            setPoints(points + mult * t.points);
+            return { ...t, done: !t.done };
+          } else {
+            return t;
+          }
         })
         .sort(sortingFunction)
     );
