@@ -70,7 +70,7 @@ function Modal(props) {
 
   return (
     <section>
-      {modal.opened && (
+      {modal.modalOpen && (
         <Darken>
           <Container>
             {location === "rewards" ? (

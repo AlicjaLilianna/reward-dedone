@@ -1,7 +1,6 @@
-import { Route, Routes, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
-import Main from "../Main/Main";
-import RewardsMain from "../RewardsMain/RewardsMain";
+
 import TasksIcon from "../Icons/TasksIcon";
 import RewardsIcon from "../Icons/RewardsIcon";
 
@@ -101,11 +100,6 @@ function Nav() {
           </NavItem>
         </NavList>
       </Nav>
-
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/rewards" element={<RewardsMain />} />
-      </Routes>
     </>
   );
 }
