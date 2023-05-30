@@ -9,6 +9,7 @@ import Nav from "./components/Menu/Menu";
 import Modal from "./components/Modal/Modal";
 import { ModalContext } from "./providers/ModalContext";
 import { PointsContext } from "./providers/PointsContext";
+import { GoogleLogin } from "@react-oauth/google";
 
 function App() {
   const [modal, setModal] = useState({ modalOpen: false });
@@ -25,6 +26,14 @@ function App() {
   const toggleModal = (state) => {
     setModal({ modalOpen: !state });
   };
+
+  const logInResponseMessage = (response) => {
+    console.log(response);
+  };
+  const logInErrorMessage = (error) => {
+    console.log(error);
+  };
+
   return (
     <div style={htmlStyle}>
       <ModalContext.Provider
@@ -34,6 +43,10 @@ function App() {
       >
         <PointsContext.Provider value={[points, setPoints]}>
           <Header />
+          <GoogleLogin
+            onSuccess={logInResponseMessage}
+            onError={logInErrorMessage}
+          />
           <Outlet />
         </PointsContext.Provider>
         <Nav />

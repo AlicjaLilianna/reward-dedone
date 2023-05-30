@@ -17,24 +17,23 @@ function Header() {
   //styles
   const Header = styled("header")`
     position: relative;
-    border-radius: 0px 0px 30px 30px;
-    padding: 24px 16px 60px 16px;
-    margin-bottom: -61px;
+    padding: 24px 16px 24px 16px;
+    margin-bottom: -24px;
     overflow: hidden;
 
     &::after {
       z-index: 0;
-      width: 200%;
-      height: 160%;
+      width: 100%;
+      height: 100%;
       display: block;
-      top: -40%;
-      left: 0;
+      top: 0;
+      right: ${location === "rewards" ? 0 : "9%"};
       position: absolute;
       content: "";
-      background: ${location === "rewards" ? "#9491B8" : "#feb5a6"}
-        url(${background});
-      background-size: 60% 92%;
-      background-position: bottom left;
+      background: url(${background}) no-repeat;
+      background-size: ${location === "rewards" ? "75%" : "60%"};
+      background-position: top right;
+      opacity: 0.4;
     }
   `;
 
@@ -47,10 +46,12 @@ function Header() {
     justify-content: space-between;
 
     .title {
-      font-family: "Amaranth", "Verdena", sans-serif;
-      font-size: 32px;
+      font-family: "DM Serif Display", "Georgia", serif;
+      font-size: 25px;
+      font-weight: 400;
       line-height: 37px;
-      color: white;
+      color: #435f7c;
+      letter-spacing: calc(0.1 * 1ch);
     }
   `;
 
@@ -65,7 +66,7 @@ function Header() {
     padding: 4px 12px;
     gap: 8px;
     border-radius: 50px;
-    margin: 0 0 58px auto;
+    margin-bottom: 60px;
     font-size: 12px;
     color: black;
 
