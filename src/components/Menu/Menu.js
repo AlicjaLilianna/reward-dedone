@@ -87,7 +87,7 @@ function Nav() {
       <Nav>
         <NavList>
           <NavItem>
-            <Link to="/">
+            <Link to="/tasks">
               <TasksIcon />
               Tasks
             </Link>
