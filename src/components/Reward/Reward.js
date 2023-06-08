@@ -1,7 +1,7 @@
 import "./Reward.scss";
 import Stars from "../Stars/Stars";
 import { RewardContext } from "../../providers/RewardContext";
-import { useContext } from "react";
+import React, { useContext } from "react";
 
 function Reward() {
   const reward = useContext(RewardContext);

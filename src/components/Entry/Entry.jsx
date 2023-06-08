@@ -2,10 +2,11 @@ import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import { setContext } from "@apollo/client/link/context";
 
 import EntryImg from "../../assets/entryImg";
 import Button from "../Buttons/Button";
+import { useApolloClient } from "@apollo/client";
 const Container = styled("div")`
   margin: 15vh auto 0;
   width: 60%;
@@ -16,35 +17,27 @@ const Container = styled("div")`
 `;
 
 function Entry() {
-  const [user, setUser] = useState([]);
   const [profile, setProfile] = useState([]);
   const navigate = useNavigate();
-
+  const client = useApolloClient();
   const login = useGoogleLogin({
-    onSuccess: (codeResponse) => {
-      setUser(codeResponse);
+    onSuccess: (tokenResponse) => {
+      const authLink = setContext((_, { headers }) => {
+        return {
+          headers: {
+            ...headers,
+            authorization: tokenResponse?.access_token
+              ? `Bearer ${tokenResponse.access_token}`
+              : "",
+          },
+        };
+      });
+      client.setLink(authLink.concat(client.link));
+
       navigate("/tasks", { replace: true });
     },
     onError: (error) => console.log("Login Failed:", error),
   });
-  useEffect(() => {
-    if (user) {
-      axios
-        .get(
-          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.access_token}`,
-              Accept: "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          setProfile(res.data);
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [user]);
 
   const logOut = () => {
     googleLogout();
