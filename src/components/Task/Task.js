@@ -1,7 +1,7 @@
 import Stars from "../Stars/Stars";
 import { TaskContext } from "../../providers/TaskContext";
 import { useContext } from "react";
-
+import "./Task.module.scss";
 function Task() {
   const task = useContext(TaskContext);
 

@@ -4,7 +4,7 @@ import Nav from "../Menu/Menu";
 import Modal from "../Modal/Modal";
 import { ModalContext } from "../../providers/ModalContext";
 
-function Layout() {
+function Layout({ component }) {
   const [modal, setModal] = useState({ modalOpen: false });
 
   const toggleModal = (state) => {
@@ -13,15 +13,16 @@ function Layout() {
   return (
     <div>
       <ModalContext.Provider
-        value={{
-          toggleModal: () => toggleModal(modal.modalOpen),
-        }}
+      // value={{
+      //   toggleModal: () => toggleModal(modal.modalOpen),
+      // }}
       >
         <Header />
+        {component}
 
         <Nav />
 
-        <Modal></Modal>
+        {/* <Modal></Modal> */}
       </ModalContext.Provider>
     </div>
   );

@@ -5,14 +5,12 @@ import bckg from "../../assets/background.svg";
 import bckgRewards from "../../assets/background_rewards.svg";
 import { ModalContext } from "../../providers/ModalContext";
 import React, { useContext } from "react";
-import { PointsContext } from "../../providers/PointsContext";
+import { useRouter } from "next/router";
 
 function Header() {
-  const [points] = React.useContext(PointsContext);
+  const location = useRouter();
   const modal = useContext(ModalContext);
-  const path = useLocation().pathname;
-  const location = "";
-  const background = location === "rewards" ? bckgRewards : bckg;
+  const background = location.pathname === "/rewards" ? bckgRewards : bckg;
   //styles
   const Header = styled("header")`
     position: relative;
@@ -26,11 +24,11 @@ function Header() {
       height: 100%;
       display: block;
       top: 0;
-      right: ${location === "rewards" ? 0 : "9%"};
+      right: ${location.pathname === "/rewards" ? 0 : "9%"};
       position: absolute;
       content: "";
       background: url(${background}) no-repeat;
-      background-size: ${location === "rewards" ? "75%" : "60%"};
+      background-size: ${location === "/rewards" ? "75%" : "60%"};
       background-position: top right;
       opacity: 0.4;
     }
@@ -87,11 +85,11 @@ function Header() {
   return (
     <Header>
       <StarContainer>
-        <StarIcon fill="#000000" /> <div>{points}</div>
+        <StarIcon fill="#000000" /> <div>123</div>
       </StarContainer>
       <TitleContainer>
         <h1 className="title">
-          {location === "rewards" ? "Rewards" : "Tasks"}
+          {location.pathname === "/rewards" ? "Rewards" : "Tasks"}
         </h1>
         <Button btnClass="btn-primary btn-add" btnText="+" btnEvent={addNew} />
       </TitleContainer>

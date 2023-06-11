@@ -1,4 +1,6 @@
+import React from "react";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import "../styles/index.css";
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQL_URI,
@@ -7,9 +9,11 @@ const client = new ApolloClient({
 
 const MyMainWrapperComponent = ({ Component, pageProps }) => {
   return (
-    <ApolloProvider client={client}>
-      <Component {...pageProps} />
-    </ApolloProvider>
+    <React.StrictMode>
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
+    </React.StrictMode>
   );
 };
 export default MyMainWrapperComponent;

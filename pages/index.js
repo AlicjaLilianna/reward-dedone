@@ -1,11 +1,7 @@
-import Main from "../src/App";
-
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <Main />
-      </header>
+      <header className="App-header"></header>
     </div>
   );
 }

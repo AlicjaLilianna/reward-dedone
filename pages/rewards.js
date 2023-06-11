@@ -1,8 +1,9 @@
 import React from "react";
-import Infobox from "../InfoBox/InfoBox";
-import Reward from "../../../pages/reward";
-import { RewardContext } from "../../providers/RewardContext";
+import Infobox from "../src/components/InfoBox/InfoBox";
+import Reward from "../src/components/Reward/Reward";
+import { RewardContext } from "../src/providers/RewardContext";
 import styled from "@emotion/styled";
+import Layout from "../src/components/Layout/Layout";
 
 function RewardsMain() {
   //styles
@@ -53,4 +54,8 @@ function RewardsMain() {
   );
 }
 
-export default RewardsMain;
+function LayedOutReward() {
+  return <Layout component={<RewardsMain />} />;
+}
+
+export default LayedOutReward;
