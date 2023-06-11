@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
 import Nav from "../Menu/Menu";
 import Modal from "../Modal/Modal";
@@ -20,7 +19,6 @@ function Layout() {
       >
         <Header />
 
-        <Outlet />
         <Nav />
 
         <Modal></Modal>

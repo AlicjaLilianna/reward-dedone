@@ -1,4 +1,3 @@
-import { useLocation } from "react-router-dom";
 import Button from "../Buttons/Button";
 import StarIcon from "../Icons/StarIcon";
 import styled from "@emotion/styled";
@@ -12,7 +11,7 @@ function Header() {
   const [points] = React.useContext(PointsContext);
   const modal = useContext(ModalContext);
   const path = useLocation().pathname;
-  const location = path.split("/")[1];
+  const location = "";
   const background = location === "rewards" ? bckgRewards : bckg;
   //styles
   const Header = styled("header")`

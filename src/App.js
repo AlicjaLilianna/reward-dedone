@@ -1,11 +1,4 @@
 import React, { useState } from "react";
-import { Route, Routes } from "react-router-dom";
-import { Outlet } from "react-router-dom";
-import "./App.css";
-import Main from "./components/Main/Main";
-import RewardsMain from "./components/RewardsMain/RewardsMain";
-import Entry from "./components/Entry/Entry";
-import Layout from "./components/Layout/Layout";
 import { PointsContext } from "./providers/PointsContext";
 
 function App() {
@@ -22,16 +15,16 @@ function App() {
 
   return (
     <div style={htmlStyle}>
-      <Outlet />
+      {/* <Outlet /> */}
 
       <PointsContext.Provider value={[points, setPoints]}>
-        <Routes>
+        {/* <Routes>
           <Route path="/" element={<Entry />} />
           <Route element={<Layout />}>
             <Route path="/tasks" element={<Main />} />
             <Route path="/rewards" element={<RewardsMain />} />
           </Route>
-        </Routes>
+        </Routes> */}
       </PointsContext.Provider>
     </div>
   );
