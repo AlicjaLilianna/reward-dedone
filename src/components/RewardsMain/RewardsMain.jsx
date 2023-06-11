@@ -1,6 +1,6 @@
 import React from "react";
 import Infobox from "../InfoBox/InfoBox";
-import Reward from "../Reward/Reward";
+import Reward from "../../../pages/reward";
 import { RewardContext } from "../../providers/RewardContext";
 import styled from "@emotion/styled";
 

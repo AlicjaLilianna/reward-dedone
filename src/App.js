@@ -1,17 +1,7 @@
-import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
-import { Outlet } from "react-router-dom";
-import "./App.css";
-import Main from "./components/Main/Main";
-import RewardsMain from "./components/RewardsMain/RewardsMain";
-import Header from "./components/Header/Header";
-import Nav from "./components/Menu/Menu";
-import Modal from "./components/Modal/Modal";
-import { ModalContext } from "./providers/ModalContext";
+import React, { useState } from "react";
 import { PointsContext } from "./providers/PointsContext";
 
 function App() {
-  const [modal, setModal] = useState({ modalOpen: false });
   const [points, setPoints] = useState(0);
 
   const htmlStyle = {
@@ -22,30 +12,19 @@ function App() {
     height: "100vh",
     overflow: "hidden",
   };
-  const toggleModal = (state) => {
-    setModal({ modalOpen: !state });
-  };
+
   return (
     <div style={htmlStyle}>
-      <ModalContext.Provider
-        value={{
-          toggleModal: () => toggleModal(modal.modalOpen),
-        }}
-      >
-        <PointsContext.Provider value={[points, setPoints]}>
-          <Header />
-          <Outlet />
-        </PointsContext.Provider>
-        <Nav />
-
-        <Modal></Modal>
-      </ModalContext.Provider>
+      {/* <Outlet /> */}
 
       <PointsContext.Provider value={[points, setPoints]}>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/rewards" element={<RewardsMain />} />
-        </Routes>
+        {/* <Routes>
+          <Route path="/" element={<Entry />} />
+          <Route element={<Layout />}>
+            <Route path="/tasks" element={<Main />} />
+            <Route path="/rewards" element={<RewardsMain />} />
+          </Route>
+        </Routes> */}
       </PointsContext.Provider>
     </div>
   );

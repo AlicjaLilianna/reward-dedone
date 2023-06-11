@@ -1,6 +1,5 @@
-import { useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { ModalContext } from "../../providers/ModalContext";
 import Button from "../Buttons/Button";
 import Inputs from "../Inputs/Inputs";
@@ -62,7 +61,7 @@ function Modal(props) {
 
   const modal = useContext(ModalContext);
   const path = useLocation().pathname;
-  const location = path.split("/")[1];
+  const location = "";
 
   const cancelModal = () => {
     modal.toggleModal();

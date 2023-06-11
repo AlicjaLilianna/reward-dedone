@@ -1,4 +1,3 @@
-import "./Task.scss";
 import Stars from "../Stars/Stars";
 import { TaskContext } from "../../providers/TaskContext";
 import { useContext } from "react";
