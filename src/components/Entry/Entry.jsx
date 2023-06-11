@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { googleLogout, useGoogleLogin } from "@react-oauth/google";
 import { setContext } from "@apollo/client/link/context";
@@ -18,7 +17,6 @@ const Container = styled("div")`
 
 function Entry() {
   const [profile, setProfile] = useState([]);
-  const navigate = useNavigate();
   const client = useApolloClient();
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => {
@@ -33,8 +31,6 @@ function Entry() {
         };
       });
       client.setLink(authLink.concat(client.link));
-
-      navigate("/tasks", { replace: true });
     },
     onError: (error) => console.log("Login Failed:", error),
   });
@@ -61,3 +57,4 @@ function Entry() {
 }
 
 export default Entry;
+1;

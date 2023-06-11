@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 
 import TasksIcon from "../Icons/TasksIcon";
@@ -88,16 +87,16 @@ function Nav() {
       <Nav>
         <NavList>
           <NavItem>
-            <Link to="/tasks">
+            {/* <Link to="/tasks">
               <TasksIcon />
               Tasks
-            </Link>
+            </Link> */}
           </NavItem>
           <NavItem>
-            <Link to="/rewards">
+            {/* <Link to="/rewards">
               <RewardsIcon />
               Rewards
-            </Link>
+            </Link> */}
           </NavItem>
         </NavList>
       </Nav>

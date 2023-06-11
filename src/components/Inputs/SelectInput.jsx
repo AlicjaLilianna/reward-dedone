@@ -5,7 +5,6 @@ import exclamation from "../../assets/exclamation.svg";
 import fire from "../../assets/fire.svg";
 import styled from "@emotion/styled";
 import Stars from "../Stars/Stars";
-import "./SelectInput.scss";
 
 function SelectInput(props) {
   const InputContainer = styled("div")`

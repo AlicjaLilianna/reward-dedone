@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 import styled from "@emotion/styled";
 
-import Infobox from "../InfoBox/InfoBox";
-import Task from "../Task/Task";
-import { TaskContext } from "../../providers/TaskContext";
+import Infobox from "../src/components/InfoBox/InfoBox";
+import Task from "../src/components/Task/Task";
+import { TaskContext } from "../src/providers/TaskContext";
 import { useQuery, useMutation, gql } from "@apollo/client";
 
 const GET_TASKS = gql`
