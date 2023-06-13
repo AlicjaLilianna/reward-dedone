@@ -5,6 +5,7 @@ import Infobox from "../src/components/InfoBox/InfoBox";
 import Task from "../src/components/Task/Task";
 import { TaskContext } from "../src/providers/TaskContext";
 import { useQuery, useMutation, gql } from "@apollo/client";
+import Layout from "../src/components/Layout/Layout";
 
 const GET_TASKS = gql`
   query GetAllTasks {
@@ -26,7 +27,7 @@ const COMPLETE_TASK = gql`
   }
 `;
 
-function Main() {
+function TasksMain() {
   const { loading, error, data } = useQuery(GET_TASKS);
   const [
     completeTask,
@@ -84,4 +85,8 @@ function Main() {
   );
 }
 
-export default Main;
+function LayedOutTasks() {
+  return <Layout component={<TasksMain />} />;
+}
+
+export default LayedOutTasks;
