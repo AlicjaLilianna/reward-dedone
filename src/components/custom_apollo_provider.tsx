@@ -10,29 +10,14 @@ import { setContext } from "@apollo/client/link/context";
 import { getToken } from "next-auth/jwt";
 
 const httpLink = new HttpLink({
-  uri: process.env.NEXT_PUBLIC_GRAFBASE_API_URL,
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_URI,
 });
 
 export const ApolloProviderWrapper = ({ children }: PropsWithChildren) => {
-  const client = useMemo(() => {
-    const authMiddleware = setContext(async (operation, { headers }) => {
-      const { token } = await fetch("/api/auth/token").then((res) =>
-        res.json()
-      );
-
-      return {
-        headers: {
-          ...headers,
-          authorization: `Bearer ${token}`,
-        },
-      };
-    });
-
-    return new ApolloClient({
-      link: from([authMiddleware, httpLink]),
-      cache: new InMemoryCache(),
-    });
-  }, [getToken]);
+  const client = new ApolloClient({
+    link: from([httpLink]),
+    cache: new InMemoryCache(),
+  });
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 };

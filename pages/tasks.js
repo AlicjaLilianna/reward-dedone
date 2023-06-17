@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 
 import Infobox from "../src/components/InfoBox/InfoBox";
@@ -63,7 +63,6 @@ function TasksMain() {
 
   return (
     <Container>
-      {/* <InputComponent /> */}
       {data?.tasks && data.tasks.length > 0 ? (
         data.tasks.map((t) => (
           <TaskContext.Provider
