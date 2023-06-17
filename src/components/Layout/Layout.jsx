@@ -13,9 +13,9 @@ function Layout({ component }) {
   return (
     <div>
       <ModalContext.Provider
-      // value={{
-      //   toggleModal: () => toggleModal(modal.modalOpen),
-      // }}
+        value={{
+          toggleModal: () => toggleModal(modal.modalOpen),
+        }}
       >
         <Header />
         {component}
