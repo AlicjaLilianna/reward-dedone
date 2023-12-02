@@ -6,8 +6,6 @@ import {
   InMemoryCache,
   from,
 } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-import { getToken } from "next-auth/jwt";
 
 const httpLink = new HttpLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_URI,

@@ -18,10 +18,6 @@ function Login() {
   const { data: session } = useSession();
   const { push } = useRouter();
 
-  // if (session) {
-  //   push("/tasks");
-  // }
-
   return (
     <Container>
       <EntryImg />

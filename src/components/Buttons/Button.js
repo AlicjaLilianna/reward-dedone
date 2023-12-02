@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "@emotion/styled";
+import { DrawerContext } from "../../providers/DrawerContext";
 
 function Button(props) {
   //styles
@@ -33,7 +34,13 @@ function Button(props) {
   `;
 
   return (
-    <Button role="button" className={props.btnClass} onClick={props.btnEvent}>
+    <Button
+      role="button"
+      className={props.btnClass}
+      onClick={props.btnEvent}
+      type={props.type}
+      form={props.form}
+    >
       {props.btnText}
     </Button>
   );

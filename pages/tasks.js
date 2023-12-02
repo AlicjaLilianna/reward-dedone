@@ -27,12 +27,23 @@ const COMPLETE_TASK = gql`
   }
 `;
 
+const DELETE_TASK = gql`
+  mutation DeleteTask($deleteTaskId: ID!) {
+    deleteTask(id: $deleteTaskId) {
+      message
+      success
+    }
+  }
+`;
+
 function TasksMain() {
   const { loading, error, data } = useQuery(GET_TASKS);
   const [
     completeTask,
     { dataCompleteTask, loadingCompleteTask, errorCompleteTask },
   ] = useMutation(COMPLETE_TASK);
+  const [deleteTask, { dataDeleteTask, loadingDeleteTask, errorDeleteTask }] =
+    useMutation(DELETE_TASK);
 
   //styles
   const Container = styled("main")`
@@ -47,16 +58,6 @@ function TasksMain() {
     }
   `;
 
-  //functions
-  const sortingFunction = (lhs, rhs) => {
-    if (lhs.done !== rhs.done) {
-      return lhs.done ? 1 : -1;
-    }
-    if (lhs.points !== rhs.points) {
-      return lhs.points < rhs.points ? 1 : -1;
-    }
-    return lhs.id < rhs.id ? -1 : 1;
-  };
   const toggleTaskDone = (id) => {
     completeTask({ variables: { completeTaskId: id } });
   };
@@ -66,7 +67,12 @@ function TasksMain() {
       {data?.tasks && data.tasks.length > 0 ? (
         data.tasks.map((t) => (
           <TaskContext.Provider
-            value={{ ...t, toggleDone: () => toggleTaskDone(t.id) }}
+            value={{
+              ...t,
+              toggleDone: () => toggleTaskDone(t.id),
+              deleteTask: () =>
+                deleteTask({ variables: { deleteTaskId: t.id } }),
+            }}
             key={t.id}
           >
             <Task
@@ -78,7 +84,7 @@ function TasksMain() {
           </TaskContext.Provider>
         ))
       ) : (
-        <Infobox case="tasks" />
+        <Infobox case="rewards" />
       )}
     </Container>
   );

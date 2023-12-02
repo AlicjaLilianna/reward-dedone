@@ -4,8 +4,33 @@ import Reward from "../src/components/Reward/Reward";
 import { RewardContext } from "../src/providers/RewardContext";
 import styled from "@emotion/styled";
 import Layout from "../src/components/Layout/Layout";
+import { useQuery, useMutation, gql } from "@apollo/client";
+
+const GET_REWARDS = gql`
+  query GetAllRewards {
+    rewards {
+      id
+      title
+      points
+    }
+  }
+`;
+
+const DELETE_REWARD = gql`
+  mutation DeleteReward($deleteRewardId: ID!) {
+    deleteReward(id: $deleteRewardId) {
+      message
+      success
+    }
+  }
+`;
 
 function RewardsMain() {
+  const { loading, error, data } = useQuery(GET_REWARDS);
+  const [
+    deleteReward,
+    { dataDeleteReward, loadingDeleteReward, errorDeleteReward },
+  ] = useMutation(DELETE_REWARD);
   //styles
   const Container = styled("main")`
     max-width: 480px;
@@ -19,31 +44,18 @@ function RewardsMain() {
     }
   `;
 
-  let [rewardList] = React.useState([
-    {
-      title: "Eat chocolate",
-      points: 100,
-      id: 1,
-    },
-    { title: "Go to cinema", points: 710, id: 2 },
-    {
-      title: "Have a long bath",
-      points: 250,
-      id: 3,
-    },
-    {
-      title: "Drink wine",
-      points: 500,
-      id: 4,
-    },
-  ]);
-
   return (
     <Container>
-      {/* <InputComponent /> */}
-      {rewardList && rewardList.length > 0 ? (
-        rewardList.map((r) => (
-          <RewardContext.Provider value={r} key={r.id}>
+      {data?.rewards && data.rewards.length > 0 ? (
+        data.rewards.map((r) => (
+          <RewardContext.Provider
+            value={{
+              ...r,
+              deleteReward: () =>
+                deleteReward({ variables: { deleteRewardId: r.id } }),
+            }}
+            key={r.id}
+          >
             <Reward title={r.title} points={r.points} />
           </RewardContext.Provider>
         ))
