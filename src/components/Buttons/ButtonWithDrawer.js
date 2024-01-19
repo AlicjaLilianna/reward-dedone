@@ -10,7 +10,7 @@ function ButtonWithDrawer(props) {
   return (
     <>
       <Button
-        btnClass="btn-primary btn-add"
+        buttonType="addIcon"
         btnText="+"
         btnEvent={() => setDrawerOpen(true)}
       />

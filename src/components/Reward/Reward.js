@@ -9,19 +9,25 @@ function Reward(props) {
 
   return (
     <div className={styles.reward}>
-      <label className={styles.rewardContainer}>
+      <label
+        className={styles.rewardContainer}
+        onClick={() => {
+          reward.buyReward();
+          window.location.reload(true);
+        }}
+      >
         {props.title}
         <Stars points={props.points} />
-        <DeleteOutlineIcon
-          color="error"
-          onClick={() => {
-            reward.deleteReward();
-            console.log(reward);
-          }}
-        >
-          {" "}
-        </DeleteOutlineIcon>
       </label>
+      <DeleteOutlineIcon
+        color="error"
+        onClick={() => {
+          reward.deleteReward();
+          window.location.reload(true);
+        }}
+      >
+        {" "}
+      </DeleteOutlineIcon>
     </div>
   );
 }

@@ -1,11 +1,9 @@
 import StarIcon from "../Icons/StarIcon";
-import styled from "@emotion/styled";
-import bckg from "../../assets/background.svg";
-import bckgRewards from "../../assets/background_rewards.svg";
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import ButtonWithDrawer from "../Buttons/ButtonWithDrawer";
 import Button from "../Buttons/Button";
+import classes from "./Header.module.scss";
 import {
   TextField,
   FormControl,
@@ -14,9 +12,17 @@ import {
   MenuItem,
   Grid,
 } from "@mui/material";
-import { useMutation, gql } from "@apollo/client";
+import { useQuery, useMutation, gql } from "@apollo/client";
 import { DrawerContext } from "../../providers/DrawerContext";
 import { useFormik } from "formik";
+
+const GET_POINTS = gql`
+  query User_info {
+    user_info {
+      points
+    }
+  }
+`;
 
 const ADD_TASK = gql`
   mutation AddTask($title: String!, $points: Int!, $importance: Importance) {
@@ -38,77 +44,9 @@ const ADD_REWARD = gql`
 
 function Header() {
   const location = useRouter();
-  const background = location.pathname === "/rewards" ? bckgRewards : bckg;
-
-  //styles
-  const Header = styled("header")`
-    position: relative;
-    padding: 24px 16px 24px 16px;
-    margin-bottom: -24px;
-    overflow: hidden;
-
-    &::after {
-      z-index: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-      top: 0;
-      right: ${location.pathname === "/rewards" ? 0 : "9%"};
-      position: absolute;
-      content: "";
-      background: url(${background}) no-repeat;
-      background-size: ${location === "/rewards" ? "75%" : "60%"};
-      background-position: top right;
-      opacity: 0.4;
-    }
-  `;
-
-  const TitleContainer = styled("div")`
-    position: relative;
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    padding: 0px 8px;
-    justify-content: space-between;
-
-    .title {
-      font-family: "DM Serif Display", "Georgia", serif;
-      font-size: 25px;
-      font-weight: 400;
-      line-height: 37px;
-      color: #435f7c;
-      letter-spacing: calc(0.1 * 1ch);
-    }
-  `;
-
-  const StarContainer = styled("div")`
-    position: relative;
-    overflow: hidden;
-    z-index: 5;
-    width: 100px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 4px 12px;
-    gap: 8px;
-    border-radius: 50px;
-    margin-bottom: 60px;
-    font-size: 12px;
-    color: black;
-
-    &::before {
-      top: 0;
-      left: 0;
-      position: absolute;
-      content: "";
-      width: 100%;
-      height: 100%;
-      background: #435d7c4d;
-    }
-  `;
 
   const priorityOptions = [
-    { value: "uber-high", text: "Very high" },
+    { value: "uber_high", text: "Very high" },
     { value: "high", text: "High" },
     { value: "normal", text: "Normal" },
     { value: "low", text: "Low" },
@@ -116,7 +54,7 @@ function Header() {
 
   function CountPoints(priority) {
     switch (priority) {
-      case "uber-high":
+      case "uber_high":
         return 75;
       case "high":
         return 50;
@@ -128,7 +66,7 @@ function Header() {
     }
   }
 
-  function NewTaskDrawerContent() {
+  function NewTaskDrawerContent(props) {
     const [addTask, { dataAddTask, loadingAddTask, errorAddTask }] =
       useMutation(ADD_TASK);
     const formik = useFormik({
@@ -145,6 +83,7 @@ function Header() {
           },
         });
         setDrawerOpen(false);
+        window.location.reload(true);
       },
     });
 
@@ -177,10 +116,12 @@ function Header() {
             ))}
           </Select>
         </FormControl>
+        {props.button}
       </form>
     );
   }
-  function NewRewardDrawerContent() {
+
+  function NewRewardDrawerContent(props) {
     const [addReward, { dataAddReward, loadingAddReward, errorAddReward }] =
       useMutation(ADD_REWARD);
     const formik = useFormik({
@@ -196,6 +137,7 @@ function Header() {
           },
         });
         setDrawerOpen(false);
+        window.location.reload(true);
       },
     });
 
@@ -221,6 +163,7 @@ function Header() {
           value={formik.values.rewardPoints}
           onChange={formik.handleChange}
         ></TextField>
+        {props.button}
       </form>
     );
   }
@@ -231,45 +174,59 @@ function Header() {
         {type === "tasks" ? (
           <>
             <h2>New Task</h2>
-            <NewTaskDrawerContent />
+            <NewTaskDrawerContent
+              button={
+                <Button
+                  buttonType="primary"
+                  fullWidth={true}
+                  btnText="Add task"
+                  form="addForm"
+                  type="submit"
+                />
+              }
+            />
           </>
         ) : (
           <>
             <h2>New Reward</h2>
-            <NewRewardDrawerContent />
+            <NewRewardDrawerContent
+              button={
+                <Button
+                  buttonType="primary"
+                  fullWidth={true}
+                  btnText="Add rewards"
+                  form="addForm"
+                  type="submit"
+                />
+              }
+            />
           </>
         )}
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <Button
-              btnClass="btn-secondary"
+              buttonType="secondary"
               fullWidth={true}
               btnText="Cancel"
               btnEvent={() => setDrawerOpen(false)}
             />
           </Grid>
-          <Grid item xs={6}>
-            <Button
-              btnClass="btn-primary"
-              fullWidth={true}
-              btnText={type === "tasks" ? "Add task" : "Add rewards"}
-              form="addForm"
-              type="submit"
-            />
-          </Grid>
+          <Grid item xs={6}></Grid>
         </Grid>
       </>
     );
   }
 
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { loading, error, data } = useQuery(GET_POINTS);
 
   return (
-    <Header>
-      <StarContainer>
-        <StarIcon fill="#000000" /> <div>123</div>
-      </StarContainer>
-      <TitleContainer>
+    <header className={classes.header}>
+      <div className={classes.starContainer}>
+        <StarIcon fill="#000000" />{" "}
+        <div>{data?.user_info?.points ?? "123"}</div>
+      </div>
+      <div className={classes.titleContainer}>
         <h1 className="title">
           {location.pathname === "/rewards" ? "Rewards" : "Tasks"}
         </h1>
@@ -280,8 +237,8 @@ function Header() {
             )}
           />
         </DrawerContext.Provider>
-      </TitleContainer>
-    </Header>
+      </div>
+    </header>
   );
 }
 

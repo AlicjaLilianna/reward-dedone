@@ -25,12 +25,24 @@ const DELETE_REWARD = gql`
   }
 `;
 
+const BUY_REWARD = gql`
+  mutation Mutation($buyRewardId: ID!) {
+    buyReward(id: $buyRewardId) {
+      message
+      success
+    }
+  }
+`;
+
 function RewardsMain() {
   const { loading, error, data } = useQuery(GET_REWARDS);
   const [
     deleteReward,
     { dataDeleteReward, loadingDeleteReward, errorDeleteReward },
   ] = useMutation(DELETE_REWARD);
+
+  const [buyReward, { dataBuyReward, loadingBuyReward, errorBuyReward }] =
+    useMutation(BUY_REWARD);
   //styles
   const Container = styled("main")`
     max-width: 480px;
@@ -51,6 +63,7 @@ function RewardsMain() {
           <RewardContext.Provider
             value={{
               ...r,
+              buyReward: () => buyReward({ variables: { buyRewardId: r.id } }),
               deleteReward: () =>
                 deleteReward({ variables: { deleteRewardId: r.id } }),
             }}

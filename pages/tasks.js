@@ -36,6 +36,25 @@ const DELETE_TASK = gql`
   }
 `;
 
+const EDIT_TASK = gql`
+  mutation EditTask(
+    $editTaskId: ID!
+    $title: String
+    $importance: Importance
+    $points: Int
+  ) {
+    editTask(
+      id: $editTaskId
+      title: $title
+      importance: $importance
+      points: $points
+    ) {
+      message
+      success
+    }
+  }
+`;
+
 function TasksMain() {
   const { loading, error, data } = useQuery(GET_TASKS);
   const [
@@ -44,6 +63,8 @@ function TasksMain() {
   ] = useMutation(COMPLETE_TASK);
   const [deleteTask, { dataDeleteTask, loadingDeleteTask, errorDeleteTask }] =
     useMutation(DELETE_TASK);
+  const [editTask, { dataEditTask, loadingEditTask, errorEditTask }] =
+    useMutation(EDIT_TASK);
 
   //styles
   const Container = styled("main")`
@@ -60,6 +81,7 @@ function TasksMain() {
 
   const toggleTaskDone = (id) => {
     completeTask({ variables: { completeTaskId: id } });
+    window.location.reload(true);
   };
 
   return (
@@ -70,8 +92,17 @@ function TasksMain() {
             value={{
               ...t,
               toggleDone: () => toggleTaskDone(t.id),
-              deleteTask: () =>
-                deleteTask({ variables: { deleteTaskId: t.id } }),
+              deleteTask: () => {
+                deleteTask({ variables: { deleteTaskId: t.id } });
+                window.location.reload(true);
+              },
+              editTask: (args) =>
+                editTask({
+                  variables: {
+                    editTaskId: t.id,
+                    ...args,
+                  },
+                }),
             }}
             key={t.id}
           >
@@ -84,7 +115,7 @@ function TasksMain() {
           </TaskContext.Provider>
         ))
       ) : (
-        <Infobox case="rewards" />
+        <Infobox case="tasks" />
       )}
     </Container>
   );

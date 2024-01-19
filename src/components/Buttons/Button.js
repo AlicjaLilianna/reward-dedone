@@ -1,49 +1,33 @@
-import React, { useContext } from "react";
-import styled from "@emotion/styled";
-import { DrawerContext } from "../../providers/DrawerContext";
+import React from "react";
+import classes from "./Button.module.scss";
+import classNames from "classnames";
 
 function Button(props) {
-  //styles
-  const Button = styled("button")`
-    font-family: Poppins;
-    border-radius: 15px;
-    padding: 13px 20px;
-    border: 1px solid transparent;
-    font-size: 12px;
-    &.btn-primary {
-      min-width: 135px;
-      background-color: #435f7c;
-      color: white;
-      &:active {
-        background-color: darken(#435f7c, 10%);
-      }
-    }
-    &.btn-add {
-      min-width: auto !important;
-      padding: 8px 16px;
-      font-size: 18px;
-      font-weight: 700;
-      transform: rotate(5deg);
-    }
-    &.btn-secondary {
-      background-color: transparent;
-      min-width: 135px;
-      border-color: #435f7c;
-      color: #435f7c;
-    }
-  `;
+  switch (props.buttonType) {
+    case "addIcon":
+      const cl = classNames(classes.button, classes.btnAdd, classes.btnPrimary);
+      return (
+        <button role="button" className={cl} onClick={props.btnEvent}>
+          {props.btnText}
+        </button>
+      );
+    case "primary":
+      const clp = classNames(classes.button, classes.btnPrimary);
+      return (
+        <button role="button" className={clp} onClick={props.btnEvent}>
+          {props.btnText}
+        </button>
+      );
+    case "secondary": {
+      const cls = classNames(classes.button, classes.btnSecondary);
 
-  return (
-    <Button
-      role="button"
-      className={props.btnClass}
-      onClick={props.btnEvent}
-      type={props.type}
-      form={props.form}
-    >
-      {props.btnText}
-    </Button>
-  );
+      return (
+        <button role="button" className={cls} onClick={props.btnEvent}>
+          {props.btnText}
+        </button>
+      );
+    }
+  }
 }
 
 export default Button;
