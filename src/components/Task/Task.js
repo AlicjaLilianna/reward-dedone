@@ -21,8 +21,28 @@ function Task() {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
+  const priorityClass = (i) => {
+    switch (i) {
+      case "low":
+        return styles.low;
+      case "high":
+        return styles.high;
+      case "uber_high":
+        return styles.uberHigh;
+      case "normal":
+      default:
+        return "";
+    }
+  };
+
   return (
-    <div className={styles.task}>
+    <div
+      className={
+        !task.done
+          ? `${styles.task} ${priorityClass(task.importance)}`
+          : `${styles.task} ${styles.done} ${priorityClass(task.importance)}`
+      }
+    >
       <label
         className={styles.taskContainer}
         priority={task.priority}
@@ -39,8 +59,8 @@ function Task() {
         </div>
         <Stars points={task.points} />
       </label>
-      <div>
-        <MoreVert color="error" onClick={handleClick}></MoreVert>
+      <div className={styles.optionsMenu}>
+        <MoreVert fontSize="small" onClick={handleClick}></MoreVert>
         <Popover
           id={id}
           classes={{ paper: styles.actionsContainer, root: styles.actions }}
@@ -49,30 +69,26 @@ function Task() {
           onClose={handleClose}
           anchorOrigin={{
             vertical: "center",
-            horizontal: "left",
+            horizontal: "center",
           }}
           transformOrigin={{
-            vertical: "center",
+            vertical: "top",
             horizontal: "right",
           }}
         >
-          <div className={styles.actionWrap}>
-            <DriveFileRenameOutline
-              onClick={() => task.editTask()}
-            ></DriveFileRenameOutline>
+          <div className={styles.actionWrap} onClick={() => task.editTask()}>
+            <DriveFileRenameOutline></DriveFileRenameOutline> Edit
           </div>
-          <div className={styles.actionWrap}>
-            <DeleteOutlineIcon
-              onClick={() => {
-                task.deleteTask();
-              }}
-            >
-              {" "}
-            </DeleteOutlineIcon>
+          <div
+            className={styles.actionWrap}
+            onClick={() => {
+              task.deleteTask();
+            }}
+          >
+            <DeleteOutlineIcon> </DeleteOutlineIcon> Delete
           </div>
         </Popover>
       </div>
-      {task.done && <div className={styles.done}></div>}
     </div>
   );
 }

@@ -1,19 +1,17 @@
+@import "../../../styles/colors";
 .reward {
-  background: #fcfcfc;
-  border-radius: 25px;
+  background: $a10white;
+  border: 1px solid $grey20;
   width: 100%;
   overflow: hidden;
-  margin: 8px;
-  position: relative;
-  z-index: 5;
+  margin: 1rem;
+  line-height: 1.25rem;
 
   .rewardContainer {
-    border: 1px solid #eef1f7;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 24px;
-    gap: 24px;
-    position: relative;
+    padding: 1rem;
+    gap: 1.5rem;
   }
 }

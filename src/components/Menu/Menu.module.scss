@@ -4,7 +4,10 @@
   z-index: 10;
   position: fixed;
   bottom: 0;
-  background: $a20white;
+  background: $pureblack;
+  background-image: url("../../assets/bckg-light.png");
+  background-position-y: -167px;
+  background-size: 100%;
   border-top: 1px solid $purewhite;
   padding: 0.5rem 4rem;
   width: 100%;
