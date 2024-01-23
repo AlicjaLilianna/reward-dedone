@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 
 import Infobox from "../src/components/InfoBox/InfoBox";
@@ -6,6 +6,17 @@ import Task from "../src/components/Task/Task";
 import { TaskContext } from "../src/providers/TaskContext";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import Layout from "../src/components/Layout/Layout";
+import { Drawer } from "@mui/material";
+import { DrawerContext } from "../src/providers/DrawerContext";
+import { useFormik } from "formik";
+import {
+  TextField,
+  FormControl,
+  Select,
+  InputLabel,
+  MenuItem,
+} from "@mui/material";
+import Button from "../src/components/Buttons/Button";
 
 const GET_TASKS = gql`
   query GetAllTasks {
@@ -14,6 +25,7 @@ const GET_TASKS = gql`
       title
       done
       points
+      importance
     }
   }
 `;
@@ -55,6 +67,70 @@ const EDIT_TASK = gql`
   }
 `;
 
+const priorityOptions = [
+  { value: "uber_high", text: "Very high" },
+  { value: "high", text: "High" },
+  { value: "normal", text: "Normal" },
+  { value: "low", text: "Low" },
+];
+
+function CountPoints(priority) {
+  switch (priority) {
+    case "uber_high":
+      return 75;
+    case "high":
+      return 50;
+    case "low":
+      return 10;
+    case "normal":
+    default:
+      return 25;
+  }
+}
+
+function NewTaskDrawerContent(props) {
+  const formik = useFormik({
+    initialValues: {
+      taskTitle: props.title,
+      taskPriority: props.priority,
+    },
+    onSubmit: props.costam,
+  });
+
+  return (
+    <form onSubmit={formik.handleSubmit} id="addForm">
+      <TextField
+        label="Task title"
+        id="task-title"
+        variant="filled"
+        name="taskTitle"
+        value={formik.values.taskTitle}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+      ></TextField>
+      <FormControl variant="filled">
+        <InputLabel id="task-priority">Priority</InputLabel>
+        <Select
+          labelId="task-priority"
+          id="task-priority-select"
+          name="taskPriority"
+          value={formik.values.taskPriority}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          defaultValue={priorityOptions[2].value}
+        >
+          {priorityOptions.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.text}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      {props.button}{" "}
+    </form>
+  );
+}
+
 function TasksMain() {
   const { loading, error, data } = useQuery(GET_TASKS);
   const [
@@ -63,8 +139,6 @@ function TasksMain() {
   ] = useMutation(COMPLETE_TASK);
   const [deleteTask, { dataDeleteTask, loadingDeleteTask, errorDeleteTask }] =
     useMutation(DELETE_TASK);
-  const [editTask, { dataEditTask, loadingEditTask, errorEditTask }] =
-    useMutation(EDIT_TASK);
 
   //styles
   const Container = styled("main")`
@@ -83,7 +157,10 @@ function TasksMain() {
     completeTask({ variables: { completeTaskId: id } });
     window.location.reload(true);
   };
-
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [currentTask, setCurrentTask] = useState(null);
+  const [editTask, { dataEditTask, loadingEditTask, errorEditTask }] =
+    useMutation(EDIT_TASK);
   return (
     <Container>
       {data?.tasks && data.tasks.length > 0 ? (
@@ -96,13 +173,10 @@ function TasksMain() {
                 deleteTask({ variables: { deleteTaskId: t.id } });
                 window.location.reload(true);
               },
-              editTask: (args) =>
-                editTask({
-                  variables: {
-                    editTaskId: t.id,
-                    ...args,
-                  },
-                }),
+              editTask: (args) => {
+                setCurrentTask(t);
+                setDrawerOpen(true);
+              },
             }}
             key={t.id}
           >
@@ -117,6 +191,45 @@ function TasksMain() {
       ) : (
         <Infobox case="tasks" />
       )}
+      <DrawerContext.Provider value={{ drawerOpen, setDrawerOpen }}>
+        <Drawer
+          anchor="bottom"
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+        >
+          <h2>New Task</h2>
+          <NewTaskDrawerContent
+            title={currentTask?.title ?? ""}
+            priority={currentTask?.importance ?? "normal"}
+            costam={(values) => {
+              editTask({
+                variables: {
+                  editTaskId: currentTask?.id,
+                  title: values.taskTitle,
+                  importance: values.taskPriority,
+                  points: CountPoints(values.taskPriority),
+                },
+              });
+              setDrawerOpen(false);
+            }}
+            button={
+              <Button
+                buttonType="primary"
+                fullWidth={true}
+                btnText="Update task"
+                form="addForm"
+                type="submit"
+              />
+            }
+          />
+          <Button
+            buttonType="secondary"
+            fullWidth={true}
+            btnText="Cancel"
+            btnEvent={() => setDrawerOpen(false)}
+          />
+        </Drawer>
+      </DrawerContext.Provider>
     </Container>
   );
 }

@@ -1,9 +1,9 @@
 import Stars from "../Stars/Stars";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { TaskContext } from "../../providers/TaskContext";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import styles from "./Task.module.scss";
-import { MoreVert } from "@mui/icons-material";
+import { DriveFileRenameOutline, MoreVert } from "@mui/icons-material";
 import { Popover } from "@mui/material";
 
 function Task() {
@@ -56,15 +56,19 @@ function Task() {
             horizontal: "right",
           }}
         >
-          {/* TODO: editTask goes here */}
-
-          <div
-            className={styles.actionWrap}
-            onClick={() => {
-              task.deleteTask();
-            }}
-          >
-            <DeleteOutlineIcon> </DeleteOutlineIcon>
+          <div className={styles.actionWrap}>
+            <DriveFileRenameOutline
+              onClick={() => task.editTask()}
+            ></DriveFileRenameOutline>
+          </div>
+          <div className={styles.actionWrap}>
+            <DeleteOutlineIcon
+              onClick={() => {
+                task.deleteTask();
+              }}
+            >
+              {" "}
+            </DeleteOutlineIcon>
           </div>
         </Popover>
       </div>
