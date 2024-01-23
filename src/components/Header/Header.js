@@ -223,11 +223,11 @@ function Header() {
   return (
     <header className={classes.header}>
       <div className={classes.starContainer}>
-        <StarIcon fill="#000000" />{" "}
+        <StarIcon fill="rgba(245, 153, 57, 1)" />{" "}
         <div>{data?.user_info?.points ?? "123"}</div>
       </div>
       <div className={classes.titleContainer}>
-        <h1 className="title">
+        <h1 className={classes.title}>
           {location.pathname === "/rewards" ? "Rewards" : "Tasks"}
         </h1>
         <DrawerContext.Provider value={{ drawerOpen, setDrawerOpen }}>
