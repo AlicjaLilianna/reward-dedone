@@ -1,10 +1,13 @@
-@import url("https://fonts.googleapis.com/css2?family=Catamaran:wght@400;500;600;700&family=Delius&family=Grandstander&family=Itim&family=Love+Ya+Like+A+Sister&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Catamaran:wght@300;400;500;600;700&family=Delius&family=Grandstander&family=Itim&family=Love+Ya+Like+A+Sister&display=swap");
 @import "./colors";
 body {
-  font-family: "Catamaran", sans-serif;
+  font: {
+    family: "Catamaran", sans-serif;
+    weight: 400;
+  }
   color: $purewhite;
 }
 .app {
   background-image: url("../src/assets/bckg.png");
-  background-size: contain;
+  background-size: cover;
 }
