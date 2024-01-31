@@ -31,3 +31,42 @@
   color: $purewhite;
   padding: 0.5rem;
 }
+
+.selectContainer {
+  width: 100%;
+  margin-bottom: 2rem;
+  & > div {
+    &::after {
+      border: 0 !important;
+    }
+  }
+}
+
+.input {
+  margin-bottom: 1rem;
+  background-color: $a20black;
+  border: 1px solid $a50white;
+  color: $purewhite;
+  label {
+    color: $a70white !important;
+  }
+  & > div {
+    &::after {
+      border: 0;
+    }
+  }
+  input {
+    color: $purewhite;
+  }
+}
+.label {
+  color: $a70white !important;
+}
+.select {
+  background-color: $a20black;
+  border: 1px solid $a50white;
+  color: $purewhite;
+  & ~ svg {
+    fill: $purewhite;
+  }
+}

@@ -97,9 +97,29 @@ function Header() {
           value={formik.values.taskTitle}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
+          classes={{
+            root: classes.input,
+          }}
+          fullWidth
         ></TextField>
-        <FormControl variant="filled">
-          <InputLabel id="task-priority">Priority</InputLabel>
+        <FormControl
+          variant="filled"
+          classes={{
+            root: classes.selectContainer,
+          }}
+          style={{
+            borderBottomColor: "rgba(255, 255, 255, 0.5)",
+          }}
+          fullWidth
+        >
+          <InputLabel
+            id="task-priority"
+            style={{
+              color: "rgba(255, 255, 255, .5)",
+            }}
+          >
+            Priority
+          </InputLabel>
           <Select
             labelId="task-priority"
             id="task-priority-select"
@@ -108,6 +128,10 @@ function Header() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             defaultValue={priorityOptions[2].value}
+            classes={{
+              select: classes.select,
+              // root: classes.selectRoot,
+            }}
           >
             {priorityOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -116,7 +140,19 @@ function Header() {
             ))}
           </Select>
         </FormControl>
-        {props.button}
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Button
+              buttonType="secondary"
+              fullWidth={true}
+              btnText="Cancel"
+              btnEvent={() => setDrawerOpen(false)}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            {props.button}
+          </Grid>
+        </Grid>
       </form>
     );
   }
@@ -150,6 +186,7 @@ function Header() {
           name="rewardTitle"
           value={formik.values.rewardTitle}
           onChange={formik.handleChange}
+          fullWidth
         ></TextField>
         <TextField
           type="number"
@@ -162,8 +199,22 @@ function Header() {
           inputProps={{ pattern: "[0-9]" }}
           value={formik.values.rewardPoints}
           onChange={formik.handleChange}
+          fullWidth
         ></TextField>
-        {props.button}
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Button
+              buttonType="secondary"
+              fullWidth={true}
+              btnText="Cancel"
+              btnEvent={() => setDrawerOpen(false)}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            {" "}
+            {props.button}
+          </Grid>
+        </Grid>
       </form>
     );
   }
@@ -202,17 +253,6 @@ function Header() {
             />
           </>
         )}
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Button
-              buttonType="secondary"
-              fullWidth={true}
-              btnText="Cancel"
-              btnEvent={() => setDrawerOpen(false)}
-            />
-          </Grid>
-          <Grid item xs={6}></Grid>
-        </Grid>
       </>
     );
   }

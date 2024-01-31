@@ -1,12 +1,14 @@
 @import "../../../styles/colors";
 .button {
   border-radius: 0.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
   border: 1px solid transparent;
   font-size: 0.75rem;
+  font-weight: 700;
+  width: 100%;
+
   &.btnPrimary {
     min-width: 135px;
-    font-weight: 700;
     background-color: $secondary;
     color: $secondarytext;
     &:active {
@@ -17,13 +19,13 @@
     min-width: auto !important;
     padding: 0.5rem 1rem;
     font-size: 1.125rem;
-    font-weight: 700;
     box-shadow: 0px 1rem 1rem 0px rgba(0, 0, 0, 0.25);
+    width: auto;
   }
   &.btnSecondary {
     background-color: transparent;
     min-width: 135px;
-    border-color: $purewhite;
+    border: 2px solid $purewhite;
     color: $purewhite;
   }
 }

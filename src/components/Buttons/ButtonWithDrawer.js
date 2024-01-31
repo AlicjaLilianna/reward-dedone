@@ -19,8 +19,7 @@ function ButtonWithDrawer(props) {
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         classes={{
-          root: classes.drawerBottom,
-          paper: classes.drawerContainer,
+          paper: classes.drawerBottom,
         }}
       >
         {props.drawerContent}

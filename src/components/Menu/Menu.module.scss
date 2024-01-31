@@ -4,15 +4,13 @@
   z-index: 10;
   position: fixed;
   bottom: 0;
-  background: $pureblack;
-  background-image: url("../../assets/bckg-light.png");
-  background-position-y: -167px;
-  background-size: 100%;
-  border-top: 1px solid $purewhite;
+  background: $a50black;
+  backdrop-filter: blur(3px);
+  border-top: 1px solid $a50white;
   padding: 0.5rem 4rem;
   width: 100%;
   max-width: 480px;
-  box-shadow: 0 -1rem 1.5rem $a20black;
+  box-shadow: 0 -1rem 1.5rem $a50black;
   .navList {
     display: flex;
     align-items: center;
