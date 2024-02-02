@@ -6,7 +6,7 @@ import Task from "../src/components/Task/Task";
 import { TaskContext } from "../src/providers/TaskContext";
 import { useQuery, useMutation, gql } from "@apollo/client";
 import Layout from "../src/components/Layout/Layout";
-import { Drawer } from "@mui/material";
+import { Drawer, Grid } from "@mui/material";
 import { DrawerContext } from "../src/providers/DrawerContext";
 import { useFormik } from "formik";
 import {
@@ -87,50 +87,6 @@ function CountPoints(priority) {
       return 25;
   }
 }
-
-function NewTaskDrawerContent(props) {
-  const formik = useFormik({
-    initialValues: {
-      taskTitle: props.title,
-      taskPriority: props.priority,
-    },
-    onSubmit: props.costam,
-  });
-
-  return (
-    <form onSubmit={formik.handleSubmit} id="addForm">
-      <TextField
-        label="Task title"
-        id="task-title"
-        variant="filled"
-        name="taskTitle"
-        value={formik.values.taskTitle}
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-      ></TextField>
-      <FormControl variant="filled">
-        <InputLabel id="task-priority">Priority</InputLabel>
-        <Select
-          labelId="task-priority"
-          id="task-priority-select"
-          name="taskPriority"
-          value={formik.values.taskPriority}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          defaultValue={priorityOptions[2].value}
-        >
-          {priorityOptions.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.text}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      {props.button}{" "}
-    </form>
-  );
-}
-
 function TasksMain() {
   const { loading, error, data } = useQuery(GET_TASKS);
   const [
@@ -139,6 +95,8 @@ function TasksMain() {
   ] = useMutation(COMPLETE_TASK);
   const [deleteTask, { dataDeleteTask, loadingDeleteTask, errorDeleteTask }] =
     useMutation(DELETE_TASK);
+  const [editTask, { dataEditTask, loadingEditTask, errorEditTask }] =
+    useMutation(EDIT_TASK);
 
   //styles
   const Container = styled("main")`
@@ -159,8 +117,62 @@ function TasksMain() {
   };
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [currentTask, setCurrentTask] = useState(null);
-  const [editTask, { dataEditTask, loadingEditTask, errorEditTask }] =
-    useMutation(EDIT_TASK);
+
+  function NewTaskDrawerContent(props) {
+    const formik = useFormik({
+      initialValues: {
+        taskTitle: props.title,
+        taskPriority: props.priority,
+      },
+      onSubmit: props.costam,
+    });
+
+    return (
+      <form onSubmit={formik.handleSubmit} id="addForm">
+        <TextField
+          label="Task title"
+          id="task-title"
+          variant="filled"
+          name="taskTitle"
+          value={formik.values.taskTitle}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        ></TextField>
+        <FormControl variant="filled">
+          <InputLabel id="task-priority">Priority</InputLabel>
+          <Select
+            labelId="task-priority"
+            id="task-priority-select"
+            name="taskPriority"
+            value={formik.values.taskPriority}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            defaultValue={priorityOptions[2].value}
+          >
+            {priorityOptions.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.text}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Button
+              buttonType="secondary"
+              fullWidth={true}
+              btnText="Cancel"
+              btnEvent={() => setDrawerOpen(false)}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            {" "}
+            {props.button}
+          </Grid>
+        </Grid>
+      </form>
+    );
+  }
   return (
     <Container>
       {data?.tasks && data.tasks.length > 0 ? (
@@ -197,7 +209,7 @@ function TasksMain() {
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
         >
-          <h2>New Task</h2>
+          <h2>Edit task</h2>
           <NewTaskDrawerContent
             title={currentTask?.title ?? ""}
             priority={currentTask?.importance ?? "normal"}
@@ -221,12 +233,6 @@ function TasksMain() {
                 type="submit"
               />
             }
-          />
-          <Button
-            buttonType="secondary"
-            fullWidth={true}
-            btnText="Cancel"
-            btnEvent={() => setDrawerOpen(false)}
           />
         </Drawer>
       </DrawerContext.Provider>

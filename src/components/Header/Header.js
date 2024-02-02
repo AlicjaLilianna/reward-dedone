@@ -44,6 +44,8 @@ const ADD_REWARD = gql`
 
 function Header() {
   const location = useRouter();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const { loading, error, data } = useQuery(GET_POINTS);
 
   const priorityOptions = [
     { value: "uber_high", text: "Very high" },
@@ -130,7 +132,6 @@ function Header() {
             defaultValue={priorityOptions[2].value}
             classes={{
               select: classes.select,
-              // root: classes.selectRoot,
             }}
           >
             {priorityOptions.map((option) => (
@@ -256,9 +257,6 @@ function Header() {
       </>
     );
   }
-
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const { loading, error, data } = useQuery(GET_POINTS);
 
   return (
     <header className={classes.header}>

@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import Infobox from "../src/components/InfoBox/InfoBox";
 import Reward from "../src/components/Reward/Reward";
 import { RewardContext } from "../src/providers/RewardContext";
 import styled from "@emotion/styled";
 import Layout from "../src/components/Layout/Layout";
 import { useQuery, useMutation, gql } from "@apollo/client";
+import { DrawerContext } from "../src/providers/DrawerContext";
+import { Drawer, Grid, TextField } from "@mui/material";
+import { useFormik } from "formik";
+import Button from "../src/components/Buttons/Button";
 
 const GET_REWARDS = gql`
   query GetAllRewards {
@@ -34,6 +38,15 @@ const BUY_REWARD = gql`
   }
 `;
 
+const EDIT_REWARD = gql`
+  mutation Mutation($editRewardId: ID!, $title: String, $points: Int) {
+    editReward(id: $editRewardId, title: $title, points: $points) {
+      message
+      success
+    }
+  }
+`;
+
 function RewardsMain() {
   const { loading, error, data } = useQuery(GET_REWARDS);
   const [
@@ -43,6 +56,12 @@ function RewardsMain() {
 
   const [buyReward, { dataBuyReward, loadingBuyReward, errorBuyReward }] =
     useMutation(BUY_REWARD);
+
+  const [editReward, { dataEditReward, loadingEditReward, errorEditReward }] =
+    useMutation(EDIT_REWARD);
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [currentReward, setCurrentReward] = useState(null);
   //styles
   const Container = styled("main")`
     max-width: 480px;
@@ -56,6 +75,57 @@ function RewardsMain() {
     }
   `;
 
+  function NewRewardDrawerContent(props) {
+    const formik = useFormik({
+      initialValues: {
+        rewardTitle: props.title,
+        rewardPoints: props.points,
+      },
+      onSubmit: props.costam,
+    });
+
+    return (
+      <form onSubmit={formik.handleSubmit} id="addForm">
+        <TextField
+          label="Reward title"
+          id="reward-title"
+          variant="filled"
+          name="rewardTitle"
+          value={formik.values.rewardTitle}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        ></TextField>
+        <TextField
+          type="number"
+          min={0}
+          step={5}
+          label="Reward points"
+          id="reward-points"
+          variant="filled"
+          name="rewardPoints"
+          inputProps={{ pattern: "[0-9]" }}
+          value={formik.values.rewardPoints}
+          onChange={formik.handleChange}
+          fullWidth
+        ></TextField>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Button
+              buttonType="secondary"
+              fullWidth={true}
+              btnText="Cancel"
+              btnEvent={() => setDrawerOpen(false)}
+            />
+          </Grid>
+          <Grid item xs={6}>
+            {" "}
+            {props.button}
+          </Grid>
+        </Grid>
+      </form>
+    );
+  }
+
   return (
     <Container>
       {data?.rewards && data.rewards.length > 0 ? (
@@ -66,6 +136,10 @@ function RewardsMain() {
               buyReward: () => buyReward({ variables: { buyRewardId: r.id } }),
               deleteReward: () =>
                 deleteReward({ variables: { deleteRewardId: r.id } }),
+              editReward: (args) => {
+                setCurrentReward(r);
+                setDrawerOpen(true);
+              },
             }}
             key={r.id}
           >
@@ -75,6 +149,44 @@ function RewardsMain() {
       ) : (
         <Infobox case="rewards" />
       )}
+      <DrawerContext.Provider value={{ drawerOpen, setDrawerOpen }}>
+        <Drawer
+          anchor="bottom"
+          open={drawerOpen}
+          onClose={() => setDrawerOpen(false)}
+        >
+          <h2>Edit reward</h2>
+          <NewRewardDrawerContent
+            title={currentReward?.title ?? ""}
+            points={currentReward?.points ?? 0}
+            costam={(values) => {
+              editReward({
+                variables: {
+                  editRewardId: currentReward?.id,
+                  title: values.rewardTitle,
+                  points: value.rewardPoints,
+                },
+              });
+              setDrawerOpen(false);
+            }}
+            button={
+              <Button
+                buttonType="primary"
+                fullWidth={true}
+                btnText="Update reward"
+                form="addForm"
+                type="submit"
+              />
+            }
+          />
+          <Button
+            buttonType="secondary"
+            fullWidth={true}
+            btnText="Cancel"
+            btnEvent={() => setDrawerOpen(false)}
+          />
+        </Drawer>
+      </DrawerContext.Provider>
     </Container>
   );
 }
