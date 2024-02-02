@@ -188,6 +188,9 @@ function Header() {
           value={formik.values.rewardTitle}
           onChange={formik.handleChange}
           fullWidth
+          classes={{
+            root: classes.input,
+          }}
         ></TextField>
         <TextField
           type="number"
@@ -201,6 +204,9 @@ function Header() {
           value={formik.values.rewardPoints}
           onChange={formik.handleChange}
           fullWidth
+          classes={{
+            root: classes.input,
+          }}
         ></TextField>
         <Grid container spacing={2}>
           <Grid item xs={6}>

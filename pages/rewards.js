@@ -9,6 +9,7 @@ import { DrawerContext } from "../src/providers/DrawerContext";
 import { Drawer, Grid, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import Button from "../src/components/Buttons/Button";
+import styles from "./rewards.module.scss";
 
 const GET_REWARDS = gql`
   query GetAllRewards {
@@ -94,6 +95,10 @@ function RewardsMain() {
           value={formik.values.rewardTitle}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
+          fullWidth
+          classes={{
+            root: styles.input,
+          }}
         ></TextField>
         <TextField
           type="number"
@@ -107,6 +112,9 @@ function RewardsMain() {
           value={formik.values.rewardPoints}
           onChange={formik.handleChange}
           fullWidth
+          classes={{
+            root: styles.input,
+          }}
         ></TextField>
         <Grid container spacing={2}>
           <Grid item xs={6}>
@@ -154,6 +162,9 @@ function RewardsMain() {
           anchor="bottom"
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
+          classes={{
+            paper: styles.drawerBottom,
+          }}
         >
           <h2>Edit reward</h2>
           <NewRewardDrawerContent
@@ -178,12 +189,6 @@ function RewardsMain() {
                 type="submit"
               />
             }
-          />
-          <Button
-            buttonType="secondary"
-            fullWidth={true}
-            btnText="Cancel"
-            btnEvent={() => setDrawerOpen(false)}
           />
         </Drawer>
       </DrawerContext.Provider>

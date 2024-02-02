@@ -1,10 +1,11 @@
 @import "../../../styles/colors";
 .reward {
-  background: $a10white;
+  background: $a20white;
   border: 1px solid $grey20;
   width: 100%;
-  overflow: hidden;
-  margin: 1rem;
+  margin: 0.5rem;
+  position: relative;
+  display: flex;
   line-height: 1.25rem;
 
   .rewardContainer {
@@ -13,5 +14,83 @@
     align-items: center;
     padding: 1rem;
     gap: 1.5rem;
+    flex: 1;
+  }
+  .optionsMenu {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1rem;
+  }
+}
+
+.actions {
+  .actionsContainer {
+    padding: 0.5rem;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 0;
+    border: 1px solid $grey20;
+    background: {
+      color: $grey40;
+      image: url("../../assets/bckg.png");
+      size: cover;
+    }
+    box-shadow: 0px 1rem 1rem 0px $a20black;
+    .actionWrap {
+      color: $purewhite;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      display: flex;
+      gap: 1rem;
+      border-radius: 0.5rem;
+      svg {
+        color: white;
+      }
+      &:hover {
+        background-color: $a20white;
+      }
+    }
+  }
+}
+
+.selectContainer {
+  width: 100%;
+  margin-bottom: 2rem;
+  & > div {
+    &::after {
+      border: 0 !important;
+    }
+  }
+}
+
+.input {
+  margin-bottom: 1rem;
+  background-color: $a20black;
+  border: 1px solid $a50white;
+  color: $purewhite;
+  label {
+    color: $a70white !important;
+  }
+  & > div {
+    &::after {
+      border: 0;
+    }
+  }
+  input {
+    color: $purewhite;
+  }
+}
+.label {
+  color: $a70white !important;
+}
+.select {
+  background-color: $a20black;
+  border: 1px solid $a50white;
+  color: $purewhite;
+  & ~ svg {
+    fill: $purewhite;
   }
 }

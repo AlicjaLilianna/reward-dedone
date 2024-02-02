@@ -102,3 +102,13 @@
     }
   }
 }
+
+.selectContainer {
+  width: 100%;
+  margin-bottom: 2rem;
+  & > div {
+    &::after {
+      border: 0 !important;
+    }
+  }
+}

@@ -1,0 +1,46 @@
+@import "../styles/colors";
+
+.input {
+  margin-bottom: 1rem;
+  background-color: $a20black;
+  border: 1px solid $a50white;
+  color: $purewhite;
+  label {
+    color: $a70white !important;
+  }
+  & > div {
+    &::after {
+      border: 0;
+    }
+  }
+  input {
+    color: $purewhite;
+  }
+}
+.label {
+  color: $a70white !important;
+}
+.select {
+  background-color: $a20black;
+  border: 1px solid $a50white;
+  color: $purewhite;
+  margin-bottom: 1rem;
+
+  & ~ svg {
+    fill: $purewhite;
+  }
+}
+
+.drawerBottom {
+  border-top: 1px solid $a50white;
+  background: #333 url("../src//assets/bckg-light.png");
+  background-size: cover;
+  box-shadow: 0px -16px 16px 0px $a20black;
+  padding: 2rem 1.5rem;
+  color: $purewhite;
+  h2 {
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0 0 1.5rem 0;
+  }
+}

@@ -9,6 +9,7 @@ import Layout from "../src/components/Layout/Layout";
 import { Drawer, Grid } from "@mui/material";
 import { DrawerContext } from "../src/providers/DrawerContext";
 import { useFormik } from "formik";
+import styles from "./tasks.module.scss";
 import {
   TextField,
   FormControl,
@@ -137,9 +138,29 @@ function TasksMain() {
           value={formik.values.taskTitle}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
+          classes={{
+            root: styles.input,
+          }}
+          fullWidth
         ></TextField>
-        <FormControl variant="filled">
-          <InputLabel id="task-priority">Priority</InputLabel>
+        <FormControl
+          variant="filled"
+          classes={{
+            root: styles.selectContainer,
+          }}
+          style={{
+            borderBottomColor: "rgba(255, 255, 255, 0.5)",
+          }}
+          fullWidth
+        >
+          <InputLabel
+            id="task-priority"
+            style={{
+              color: "rgba(255, 255, 255, .5)",
+            }}
+          >
+            Priority
+          </InputLabel>
           <Select
             labelId="task-priority"
             id="task-priority-select"
@@ -147,7 +168,9 @@ function TasksMain() {
             value={formik.values.taskPriority}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            defaultValue={priorityOptions[2].value}
+            classes={{
+              select: styles.select,
+            }}
           >
             {priorityOptions.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -208,6 +231,9 @@ function TasksMain() {
           anchor="bottom"
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
+          classes={{
+            paper: styles.drawerBottom,
+          }}
         >
           <h2>Edit task</h2>
           <NewTaskDrawerContent
