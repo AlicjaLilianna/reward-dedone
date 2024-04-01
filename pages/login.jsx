@@ -23,6 +23,7 @@ function Login() {
       <EntryImg />
       {!session && (
         <Button
+          buttonType="primary"
           btnText="Let's start!"
           btnEvent={() => signIn()}
           btnClass="btn-primary"
