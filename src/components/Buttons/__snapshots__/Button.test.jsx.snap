@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`addIcon button renders correctly 1`] = `
+<button
+  className="button btnAdd btnPrimary"
+  role="button"
+/>
+`;
+
+exports[`primary button renders correctly 1`] = `
+<button
+  className="button btnPrimary"
+  role="button"
+/>
+`;
+
+exports[`secondary button renders correctly 1`] = `
+<button
+  className="button btnSecondary"
+  role="button"
+/>
+`;
