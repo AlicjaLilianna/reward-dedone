@@ -54,6 +54,7 @@ function Task() {
           <input
             type="checkbox"
             className={task.done ? `${styles.checked}` : ``}
+            defaultChecked={task.done ? "checked" : ""}
           />{" "}
           {task.title}
         </div>
